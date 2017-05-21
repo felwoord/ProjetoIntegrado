@@ -6,12 +6,15 @@ using UnityEngine;
 public class SequencesGenerator : MonoBehaviour {
 	
 	private GameObject[,] board;		//board
-	private int i,j,p,q,r;				//counters
+	private int p,q,r;					//random numbers
 	private float period, difficult, t;	//timer, difficult (how often colors respawn)
+	private int boardCounter;			//BoolBoard counter
 	private GameObject childObject;		//children objects
 	public int selfDestoyed;			//number of self destroyed colors
 	private bool[,] boolBoard;			//bool boar to check if position is taken
 	private Vector3 localScaleSize = new Vector3 (0.3f, 0.3f, 0.3f); //local scale size of color
+	private bool difficultBool = true;	//bool to make difficult stop decrement on difficult
+	public float minDifficult;			//minimun value to difficult
 
 	void Start () {
 		selfDestoyed = 0;										//start self destroyed at zero
@@ -23,55 +26,72 @@ public class SequencesGenerator : MonoBehaviour {
 
 
 		//Get board and set bool board to false
-		for (i = 0; i <= 6; i++) {
-			for (j = 0; j <= 13; j++) {
+		for (int i = 0; i <= 6; i++) {
+			for (int j = 0; j <= 13; j++) {
 				board [i, j] = GameObject.Find (i + "-" + j);
 				boolBoard [i, j] = false;
 			}
 		}
 
-//		i = 9;										//do not remember why i = 9 and j = 9 
+//		i = 9;										//do not remember why i = 9 and j = 9 ZzZzZzZzZzZzZzZzZzZzZzZzZzZzZzZzZzZzZzZz 
 //		j = 9;
 	}
 
 
 	void Update () {
-
+		//count how many bools on boolBoard are true
+		boardCounter = 0;						
+		for (int i = 0; i <= 6; i++) {
+			for (int j = 0; j <= 13; j++) {
+				if (boolBoard [i, j] == true) {
+					boardCounter += 1;
+				}
+			}
+		}
 
 		//Do every "difficult" seconds
 		if (period > difficult ) {
-			
-			for(i=0;i<=1;i++){									//spawn 2 colors
-				//random position and color generator
-				p = Random.Range (0, 7);						//x
-				q = Random.Range (0, 14);						//y
-				r = Random.Range (0, 6);						//color
 
-				while (boolBoard [p, q] == true) {				//while position on board is full, get new position and color
+			if (boardCounter < 98) {								//if there is at least one false on boolBoard
+				
+				for (int i = 0; i <= 1; i++) {						//spawn 2 colors
 					//random position and color generator
-					p = Random.Range (0, 7);					//x
-					q = Random.Range (0, 14);					//y
-					r = Random.Range (0, 6);					//color
+					p = Random.Range (0, 7);						//x
+					q = Random.Range (0, 14);						//y
+					r = Random.Range (0, 6);						//color
+
+					while (boolBoard [p, q] == true) {				//while position on board is full, get new position and color
+						//random position and color generator
+						p = Random.Range (0, 7);					//x
+						q = Random.Range (0, 14);					//y
+						r = Random.Range (0, 6);					//color
+					}
+
+					GlowBoard (p, q, r);								//Call GlowBoard function
+
 				}
-
-				GlowBoard(p,q,r);								//Call GlowBoard function
-
 			}
 			period = 0;											//reset timer
 		}
 
 
 		//every 2 seconds colors respawn 0.1 seconds faster
-		if (t > 2) {						
-			difficult -= 0.1f;	
+		if (t > 2) {
+			if (difficultBool) {
+				difficult -= 0.1f;	
+			}
 			Debug.Log (difficult);
 
 			t = 0;
+			if (difficult <= minDifficult) {
+				difficultBool = false;
+			}
 		}
 
 
 		period += UnityEngine.Time.deltaTime;	//increment timer 
 		t += UnityEngine.Time.deltaTime;		//increment counter
+
 	}
 		
 

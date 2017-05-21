@@ -12,16 +12,19 @@ public class LeftHand : MonoBehaviour {
 	private float velocity = 5000.0f; 						//set player mov. speed
 	private float scoreP0, missesP0,  multiplierP0;			//score, misses and multiplier counter
 	private float rightsP0, maxMultiplierP0;				//number of right colors and max multiplier reached
-	public Text scoreP0Text;								//score text on screen
-	public Text multiplierP0Text;							//current multiplier text on screen
-	public Image healthBar;									//health bar image on screen
+	private Text scoreP0Text;								//score text on screen
+	private Text multiplierP0Text;							//current multiplier text on screen
+	private Image healthBar;								//health bar image on screen
 
 	void Start () {
-		missesP0 = 0;										//initiate Player 1 misses at zero
-		scoreP0 = 0;										//initiate Player 1 score at zero
-		multiplierP0 = 1;									//initiate Player 1 multiplier at one
-		rightsP0 = 0;										//initiate Player 1 rights at zero
-		maxMultiplierP0 = 0;								//initiate Player 1 max mult. at zero
+		scoreP0Text = GameObject.Find ("ScoreP0Text").GetComponent<Text> ();			//get Player 1 score Text Component	
+		multiplierP0Text = GameObject.Find ("MultiplierP0Text").GetComponent<Text> ();	//get Player 1 multiplier Text Component
+		healthBar = GameObject.Find ("HealthBar").GetComponent<Image> ();				//get Health Bar Image
+		missesP0 = 0;																	//initiate Player 1 misses at zero
+		scoreP0 = 0;																	//initiate Player 1 score at zero
+		multiplierP0 = 1;																//initiate Player 1 multiplier at one
+		rightsP0 = 0;																	//initiate Player 1 rights at zero
+		maxMultiplierP0 = 0;															//initiate Player 1 max mult. at zero
 
 		PlayerPrefs.SetFloat ("scoreP0", scoreP0);						//set score in playerpref
 		PlayerPrefs.SetFloat ("missesP0", missesP0);					//set misses in playerpref

@@ -12,16 +12,19 @@ public class RightHand : MonoBehaviour {
 	private float velocity = 5000.0f; 						//set player mov. speed
 	private float scoreP1, missesP1,  multiplierP1;			//score, misses and multiplier counter
 	private float rightsP1, maxMultiplierP1;				//number of right colors and max multiplier reached
-	public Text scoreP1Text;								//score text on screen
-	public Text multiplierP1Text;							//current multiplier text on screen
-	public Image healthBar;									//health bar image on screen
+	private Text scoreP1Text;								//score text on screen
+	private Text multiplierP1Text;							//current multiplier text on screen
+	private Image healthBar;								//health bar image on screen
 
 	void Start () {
-		missesP1 = 0;										//initiate Player 2 misses at zero
-		scoreP1 = 0;										//initiate Player 2 score at zero
-		multiplierP1 = 1;									//initiate Player 2 multiplier at one
-		rightsP1 = 0;										//initiate Player 2 rights at zero
-		maxMultiplierP1 = 0;								//initiate Player 2 max mult. at zero
+		scoreP1Text = GameObject.Find ("ScoreP1Text").GetComponent<Text> ();			//get Player 2 score Text Component	
+		multiplierP1Text = GameObject.Find ("MultiplierP1Text").GetComponent<Text> ();	//get Player 2 multiplier Text Component
+		healthBar = GameObject.Find ("HealthBar").GetComponent<Image> ();				//get Health Bar Image
+		missesP1 = 0;																	//initiate Player 2 misses at zero
+		scoreP1 = 0;																	//initiate Player 2 score at zero
+		multiplierP1 = 1;																//initiate Player 2 multiplier at one
+		rightsP1 = 0;																	//initiate Player 2 rights at zero
+		maxMultiplierP1 = 0;															//initiate Player 2 max mult. at zero
 
 		PlayerPrefs.SetFloat ("scoreP1", scoreP1);						//set score in playerpref
 		PlayerPrefs.SetFloat ("missesP1", missesP1);					//set misses in playerpref
