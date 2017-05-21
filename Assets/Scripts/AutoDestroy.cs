@@ -20,8 +20,8 @@ public class AutoDestroy : MonoBehaviour {
 		if (timer >= 5) {																					//if 5 seconds has passed
 			GameObject.Find ("Main Camera").GetComponent<SequencesGenerator> ().setBoolBoardFalse (x, y);	//set position on BoolBoard on x,y position to false
 			Destroy (gameObject);																			//destroy color
-			//healthBar.fillAmount -= 0.05f;																	//remove 5% from health
-			GameObject.Find("Main Camera").GetComponent<SequencesGenerator>().selfDestoyed += 1;			//increment 1 to self destroyed on SequencesGenerator
+			healthBar.fillAmount -= 0.05f;																//remove 5% from health
+			GameObject.Find("Main Camera").GetComponent<SequencesGenerator>().AddSelfDestroyed();			//increment 1 to self destroyed on SequencesGenerator
 			GameObject.Find("Left Hand").GetComponent<LeftHand>().SetMultiplierP0(1);						//set P1 multiplier to one
 			GameObject.Find("Right Hand").GetComponent<RightHand>().SetMultiplierP1(1);						//set P2 multiplier to one
 
@@ -36,7 +36,7 @@ public class AutoDestroy : MonoBehaviour {
 
 	void HealthBarZero(){   						//function for when health bar comes to zero
 		Debug.Log ("Game Over");					
-		SceneManager.LoadScene ("PostGameScene");	//call post game scene when player dies
+		SceneManager.LoadScene ("GetNickScene");	//call get nick scene when player dies
 	}
 		
 	public void SetX(int aux){						//function to set x position

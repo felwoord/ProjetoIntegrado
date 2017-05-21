@@ -8,19 +8,19 @@ using ArcadePUCCampinas;
 using UnityEngine.SceneManagement;
 
 public class GetNicks : MonoBehaviour {
-	public Text[] lettersP0Text = new Text [3];
-	public Text[] lettersP1Text = new Text [3];
-	public Text scoreP0Text, congratsP0Text;
-	public Text scoreP1Text, congratsP1Text;
+	private Text[] lettersP0Text = new Text [3];
+	private Text[] lettersP1Text = new Text [3];
+	private Text scoreP0Text, congratsP0Text;
+	private Text scoreP1Text, congratsP1Text;
 	private float scoreP0;
 	private float scoreP1;
 	private Rank ranking;
 	private int aux;
 	Vector2 inputP0, inputP1;
 	float timerP0;														  	//timer to make selecting for Player 1 better
-	bool delayP0 = true;													//delay to be able to Player 1 change letter	
-	float timerP1;														  	//timer to make selecting for Player 1 better
-	bool delayP1 = true;													//delay to be able to Player 1 change letter	
+	bool delayP0 = true;													//delay to be able to Player 1 to change letter	
+	float timerP1;														  	//timer to make selecting for Player 2 better
+	bool delayP1 = true;													//delay to be able to Player 2 to change letter	
 	private int i = 0;
 	private int j = 0;
 	private int k = 0;
@@ -32,6 +32,16 @@ public class GetNicks : MonoBehaviour {
 
 
 	void Start () {
+		lettersP0Text[0] = GameObject.Find ("Letter1P0").GetComponent<Text> ();
+		lettersP0Text[1] = GameObject.Find ("Letter2P0").GetComponent<Text> ();
+		lettersP0Text[2] = GameObject.Find ("Letter3P0").GetComponent<Text> ();
+		lettersP1Text[0] = GameObject.Find ("Letter1P1").GetComponent<Text> ();
+		lettersP1Text[1] = GameObject.Find ("Letter2P1").GetComponent<Text> ();
+		lettersP1Text[2] = GameObject.Find ("Letter3P1").GetComponent<Text> ();
+		scoreP0Text = GameObject.Find ("ScoreP0").GetComponent<Text> ();
+		scoreP1Text = GameObject.Find ("ScoreP1").GetComponent<Text> ();
+		congratsP0Text = GameObject.Find ("CongratzP0").GetComponent<Text> ();
+		congratsP1Text = GameObject.Find ("CongratzP1").GetComponent<Text> ();
 		ranking = new Rank ();
 		scoreP0 = PlayerPrefs.GetFloat ("scoreP0");
 		scoreP1 = PlayerPrefs.GetFloat ("scoreP1");

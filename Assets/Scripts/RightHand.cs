@@ -9,7 +9,7 @@ public class RightHand : MonoBehaviour {
 
 	Vector2 input;											//controller
 	private int jogador = 1;								//set wich player is ( 1 = Player 2)
-	private float velocity = 5000.0f; 						//set player mov. speed
+	public float velocity = 5000.0f; 						//set player mov. speed
 	private float scoreP1, missesP1,  multiplierP1;			//score, misses and multiplier counter
 	private float rightsP1, maxMultiplierP1;				//number of right colors and max multiplier reached
 	private Text scoreP1Text;								//score text on screen
@@ -146,7 +146,7 @@ public class RightHand : MonoBehaviour {
 
 	void HealthBarZero(){   						//function for when health bar comes to zero
 		Debug.Log ("Game Over");					//Display Game Over on Log								
-		SceneManager.LoadScene ("PostGameScene");	//call post game scene when player dies
+		SceneManager.LoadScene ("GetNickScene");	//call get nick scene when player dies
 	}
 		
 	void WrongColor(GameObject infoCollider){																	//function for when player hits wrong color

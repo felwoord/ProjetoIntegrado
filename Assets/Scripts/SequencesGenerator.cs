@@ -10,15 +10,15 @@ public class SequencesGenerator : MonoBehaviour {
 	private float period, difficult, t;	//timer, difficult (how often colors respawn)
 	private int boardCounter;			//BoolBoard counter
 	private GameObject childObject;		//children objects
-	public int selfDestoyed;			//number of self destroyed colors
+	private int selfDestroyed;			//number of self destroyed colors
 	private bool[,] boolBoard;			//bool boar to check if position is taken
 	private Vector3 localScaleSize = new Vector3 (0.3f, 0.3f, 0.3f); //local scale size of color
 	private bool difficultBool = true;	//bool to make difficult stop decrement on difficult
 	public float minDifficult;			//minimun value to difficult
 
 	void Start () {
-		selfDestoyed = 0;										//start self destroyed at zero
-		PlayerPrefs.SetInt ("selfDestroyed", selfDestoyed);		//set it on player prefs
+		selfDestroyed = 0;										//start self destroyed at zero
+		PlayerPrefs.SetInt ("selfDestroyed", selfDestroyed);		//set it on player prefs
 		board = new GameObject[7,14];							//set board size
 		boolBoard = new bool[7,14];								//set bool board size
 		difficult = 5.0f;										//initiate difficult at 5 seconds
@@ -39,7 +39,7 @@ public class SequencesGenerator : MonoBehaviour {
 
 
 	void Update () {
-		//count how many bools on boolBoard are true
+		//count how many bools on boolBoard are true(filled)
 		boardCounter = 0;						
 		for (int i = 0; i <= 6; i++) {
 			for (int j = 0; j <= 13; j++) {
@@ -52,7 +52,7 @@ public class SequencesGenerator : MonoBehaviour {
 		//Do every "difficult" seconds
 		if (period > difficult ) {
 
-			if (boardCounter < 98) {								//if there is at least one false on boolBoard
+			if (boardCounter < 98) {								//if there is at least one false(empty) on boolBoard
 				
 				for (int i = 0; i <= 1; i++) {						//spawn 2 colors
 					//random position and color generator
@@ -175,11 +175,15 @@ public class SequencesGenerator : MonoBehaviour {
 	}
 
 	public void SaveStatsSequenceGen(){							//Function to save SequenceGenerator current stats
-		PlayerPrefs.SetInt ("selfDestroyed", selfDestoyed);		//set self destroyed on player prefs
+		PlayerPrefs.SetInt ("selfDestroyed", selfDestroyed);		//set self destroyed on player prefs
 		PlayerPrefs.Save ();
 	}
 
 	public void setBoolBoardFalse(int a, int b){				//function to set position on bool board to false
 		boolBoard [a, b] = false;
+	}
+
+	public void AddSelfDestroyed(){
+		selfDestroyed++;
 	}
 }
