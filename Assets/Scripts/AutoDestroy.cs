@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class AutoDestroy : MonoBehaviour {
 	float timer;											//timer that colors stay "alive"
-	public Image healthBar;									//health bar image on screen
+	private Image healthBar;								//health bar image on screen
 	int x,y;												//position x and y of color
 
 	void Start () {

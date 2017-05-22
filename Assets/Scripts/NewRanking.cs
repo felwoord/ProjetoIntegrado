@@ -25,7 +25,7 @@ public class NewRanking : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (InputArcade.Apertou (0, EControle.VERDE)) {		//If Player 1 press VERDE button
+		if (InputArcade.Apertou (0, EControle.AZUL)) {		//If Player 1 press AZUL button
 			SceneManager.LoadScene ("MenuScene");			//Load Menu Scene
 		}
 	}

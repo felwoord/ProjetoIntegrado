@@ -16,6 +16,12 @@ public class LeftHand : MonoBehaviour {
 	private Text multiplierP0Text;							//current multiplier text on screen
 	private Image healthBar;								//health bar image on screen
 
+	private Transform rightHandTransform;
+	private Vector3 leftHandPosition, rightHandPosition, bulletDirection, bulletDirectionVersor;
+	private GameObject bullet;
+	private float bulletDirectionMagnitude;
+	public float bulletForce;
+
 	void Start () {
 		scoreP0Text = GameObject.Find ("ScoreP0Text").GetComponent<Text> ();			//get Player 1 score Text Component	
 		multiplierP0Text = GameObject.Find ("MultiplierP0Text").GetComponent<Text> ();	//get Player 1 multiplier Text Component
@@ -53,84 +59,98 @@ public class LeftHand : MonoBehaviour {
 			maxMultiplierP0 = multiplierP0;								//max mult. = current mult.
 		}
 
+		if (InputArcade.Apertou(jogador, EControle.AZUL)){																											
+			leftHandPosition = new Vector3 (transform.position.x, transform.position.y, transform.position.z);
+			rightHandTransform = GameObject.Find("Right Hand").GetComponent<Transform>();
+			rightHandPosition = new Vector3 (rightHandTransform.position.x, rightHandTransform.position.y, rightHandTransform.position.z);
+			bullet = Instantiate (Resources.Load ("Bullet")) as GameObject;	
+			bullet.transform.position = new Vector2 (rightHandPosition.x, rightHandPosition.y);
+			bulletDirection = rightHandPosition - leftHandPosition;
+			bulletDirectionMagnitude = bulletDirection.magnitude;
+			bulletDirectionVersor = new Vector3 (bulletDirection.x / bulletDirectionMagnitude, bulletDirection.y / bulletDirectionMagnitude, bulletDirection.z / bulletDirectionMagnitude);
+			bullet.GetComponent<Rigidbody2D> ().AddForce (bulletDirectionVersor * bulletForce/bulletDirectionMagnitude);
+			
+		}
 	}
 		
 	void OnTriggerStay2D(Collider2D infoCollider){																//function for when hand is on spot, check if right button is pressed
-		if (InputArcade.Apertou(jogador, EControle.VERDE)){														//check if player pressed VERDE button
-			if ( infoCollider.gameObject.tag == "Green"){														//if object is green
-				RightColor (infoCollider.gameObject);															//call RightCollor function
-			}else{																								//if not
-				WrongColor (infoCollider.gameObject);															//call WrongCollor function
-				if (healthBar.fillAmount == 0) {																//and check if players health is zero now
-					GameObject.Find("Right Hand").GetComponent<RightHand>().SaveStatsP1();						//Call function SaveStatsP1, from RightHand Script
-					GameObject.Find("Main Camera").GetComponent<SequencesGenerator>().SaveStatsSequenceGen();	//Call function SaveStatsSequenceGen, from SequenceGenerator Script
-					SaveStatsP0	();																				//Call SaveStatsP0 function
-					HealthBarZero ();																			//call HealthBarZero function
+		if (infoCollider.tag != "Bullet") {
+			if (InputArcade.Apertou (jogador, EControle.VERDE)) {													//check if player pressed VERDE button
+				if (infoCollider.gameObject.tag == "Green") {														//if object is green
+					RightColor (infoCollider.gameObject);															//call RightCollor function
+				} else {																								//if not
+					WrongColor (infoCollider.gameObject);															//call WrongCollor function
+					if (healthBar.fillAmount == 0) {																//and check if players health is zero now
+						GameObject.Find ("Right Hand").GetComponent<RightHand> ().SaveStatsP1 ();						//Call function SaveStatsP1, from RightHand Script
+						GameObject.Find ("Main Camera").GetComponent<SequencesGenerator> ().SaveStatsSequenceGen ();	//Call function SaveStatsSequenceGen, from SequenceGenerator Script
+						SaveStatsP0	();																				//Call SaveStatsP0 function
+						HealthBarZero ();																			//call HealthBarZero function
+					}
 				}
 			}
-		}
-		if (InputArcade.Apertou(jogador, EControle.VERMELHO)){													//check if player pressed VERMELHO button
-			if ( infoCollider.gameObject.tag == "Red"){															//if object is Red
-				RightColor (infoCollider.gameObject);															//call RightCollor function
-			}else{																								//if not
-				WrongColor (infoCollider.gameObject);															//call WrongCollor function
-				if (healthBar.fillAmount == 0) {																//and check if players health is zero now
-					GameObject.Find("Right Hand").GetComponent<RightHand>().SaveStatsP1();						//Call function SaveStatsP1, from RightHand Script
-					GameObject.Find("Main Camera").GetComponent<SequencesGenerator>().SaveStatsSequenceGen();	//Call function SaveStatsSequenceGen, from SequenceGenerator Script
-					SaveStatsP0	();																				//Call SaveStatsP0 function
-					HealthBarZero ();																			//call HealthBarZero function
+			if (InputArcade.Apertou (jogador, EControle.VERMELHO)) {													//check if player pressed VERMELHO button
+				if (infoCollider.gameObject.tag == "Red") {															//if object is Red
+					RightColor (infoCollider.gameObject);															//call RightCollor function
+				} else {																								//if not
+					WrongColor (infoCollider.gameObject);															//call WrongCollor function
+					if (healthBar.fillAmount == 0) {																//and check if players health is zero now
+						GameObject.Find ("Right Hand").GetComponent<RightHand> ().SaveStatsP1 ();						//Call function SaveStatsP1, from RightHand Script
+						GameObject.Find ("Main Camera").GetComponent<SequencesGenerator> ().SaveStatsSequenceGen ();	//Call function SaveStatsSequenceGen, from SequenceGenerator Script
+						SaveStatsP0	();																				//Call SaveStatsP0 function
+						HealthBarZero ();																			//call HealthBarZero function
+					}
 				}
 			}
-		}
-		if (InputArcade.Apertou(jogador, EControle.PRETO)){														//PRETO
-			if ( infoCollider.gameObject.tag == "Black"){														//Black
-				RightColor (infoCollider.gameObject);
-			}else{
-				WrongColor (infoCollider.gameObject);
-				if (healthBar.fillAmount == 0) {
-					GameObject.Find("Right Hand").GetComponent<RightHand>().SaveStatsP1();						
-					GameObject.Find("Main Camera").GetComponent<SequencesGenerator>().SaveStatsSequenceGen();	
-					SaveStatsP0	();																				
-					HealthBarZero ();
+			if (InputArcade.Apertou (jogador, EControle.PRETO)) {														//PRETO
+				if (infoCollider.gameObject.tag == "Black") {														//Black
+					RightColor (infoCollider.gameObject);
+				} else {
+					WrongColor (infoCollider.gameObject);
+					if (healthBar.fillAmount == 0) {
+						GameObject.Find ("Right Hand").GetComponent<RightHand> ().SaveStatsP1 ();						
+						GameObject.Find ("Main Camera").GetComponent<SequencesGenerator> ().SaveStatsSequenceGen ();	
+						SaveStatsP0	();																				
+						HealthBarZero ();
+					}
 				}
 			}
-		}
-		if (InputArcade.Apertou(jogador, EControle.BRANCO)){													//BRANCO
-			if ( infoCollider.gameObject.tag == "White"){														//White
-				RightColor (infoCollider.gameObject);
-			}else{
-				WrongColor (infoCollider.gameObject);
-				if (healthBar.fillAmount == 0) {
-					GameObject.Find("Right Hand").GetComponent<RightHand>().SaveStatsP1();						
-					GameObject.Find("Main Camera").GetComponent<SequencesGenerator>().SaveStatsSequenceGen();	
-					SaveStatsP0	();																				
-					HealthBarZero ();
+			if (InputArcade.Apertou (jogador, EControle.BRANCO)) {													//BRANCO
+				if (infoCollider.gameObject.tag == "White") {														//White
+					RightColor (infoCollider.gameObject);
+				} else {
+					WrongColor (infoCollider.gameObject);
+					if (healthBar.fillAmount == 0) {
+						GameObject.Find ("Right Hand").GetComponent<RightHand> ().SaveStatsP1 ();						
+						GameObject.Find ("Main Camera").GetComponent<SequencesGenerator> ().SaveStatsSequenceGen ();	
+						SaveStatsP0	();																				
+						HealthBarZero ();
+					}
 				}
 			}
-		}
-		if (InputArcade.Apertou(jogador, EControle.AMARELO)){													//Amarelo
-			if ( infoCollider.gameObject.tag == "Yellow"){														//Yellow
-				RightColor (infoCollider.gameObject);
-			}else{
-				WrongColor (infoCollider.gameObject);
-				if (healthBar.fillAmount == 0) {
-					GameObject.Find("Right Hand").GetComponent<RightHand>().SaveStatsP1();						
-					GameObject.Find("Main Camera").GetComponent<SequencesGenerator>().SaveStatsSequenceGen();	
-					SaveStatsP0	();																				
-					HealthBarZero ();
+			if (InputArcade.Apertou (jogador, EControle.AMARELO)) {													//Amarelo
+				if (infoCollider.gameObject.tag == "Yellow") {														//Yellow
+					RightColor (infoCollider.gameObject);
+				} else {
+					WrongColor (infoCollider.gameObject);
+					if (healthBar.fillAmount == 0) {
+						GameObject.Find ("Right Hand").GetComponent<RightHand> ().SaveStatsP1 ();						
+						GameObject.Find ("Main Camera").GetComponent<SequencesGenerator> ().SaveStatsSequenceGen ();	
+						SaveStatsP0	();																				
+						HealthBarZero ();
+					}
 				}
 			}
-		}
-		if (InputArcade.Apertou(jogador, EControle.AZUL)){														//Azul
-			if ( infoCollider.gameObject.tag == "Blue"){														//Blue
-				RightColor (infoCollider.gameObject);
-			}else{
-				WrongColor (infoCollider.gameObject);
-				if (healthBar.fillAmount == 0) {
-					GameObject.Find("Right Hand").GetComponent<RightHand>().SaveStatsP1();						
-					GameObject.Find("Main Camera").GetComponent<SequencesGenerator>().SaveStatsSequenceGen();	
-					SaveStatsP0	();																				
-					HealthBarZero ();
+			if (InputArcade.Apertou (jogador, EControle.AZUL)) {														//Azul
+				if (infoCollider.gameObject.tag == "Blue") {														//Blue
+					RightColor (infoCollider.gameObject);
+				} else {
+					WrongColor (infoCollider.gameObject);
+					if (healthBar.fillAmount == 0) {
+						GameObject.Find ("Right Hand").GetComponent<RightHand> ().SaveStatsP1 ();						
+						GameObject.Find ("Main Camera").GetComponent<SequencesGenerator> ().SaveStatsSequenceGen ();	
+						SaveStatsP0	();																				
+						HealthBarZero ();
+					}
 				}
 			}
 		}
@@ -151,7 +171,7 @@ public class LeftHand : MonoBehaviour {
 
 	void WrongColor(GameObject infoCollider){																	//function for when player hits wrong color
 		int auxX = infoCollider.gameObject.GetComponent<AutoDestroy>().getX();									//get color's position X 
-		int auxY = infoCollider.gameObject.GetComponent<AutoDestroy>().getY();								//get color's position Y
+		int auxY = infoCollider.gameObject.GetComponent<AutoDestroy>().getY();									//get color's position Y
 		GameObject.Find ("Main Camera").GetComponent<SequencesGenerator> ().setBoolBoardFalse (auxX, auxY);		//set position on bool board to false
 		Destroy (infoCollider);																					//Destroy the wrong color
 		Debug.Log("Not ok");						

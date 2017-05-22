@@ -230,11 +230,11 @@ public class GetNicks : MonoBehaviour {
 		}
 
 
-		if (InputArcade.Apertou (0, EControle.VERDE)) {				//if player 1 press VERDE button
+		if (InputArcade.Apertou (0, EControle.AZUL)) {				//if player 1 press VERDE button
 			ranking.addNewScore(lettersP0Text[0].text+lettersP0Text[1].text+lettersP0Text[2].text, scoreP0);
 			ranking.addNewScore(lettersP1Text[0].text+lettersP1Text[1].text+lettersP1Text[2].text, scoreP1);
 			ranking.saveRank ();
-			SceneManager.LoadScene ("NewRankingScene");					//load Game Scene
+			SceneManager.LoadScene ("NewRankingScene");					//load new ranking scene
 		}
 	}
 }
