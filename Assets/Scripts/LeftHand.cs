@@ -166,7 +166,7 @@ public class LeftHand : MonoBehaviour {
 
 	void HealthBarZero(){   						//function for when health bar comes to zero
 		Debug.Log ("Game Over");					//Display Game Over on Log
-		SceneManager.LoadScene ("GetNickScene");	//call get nick scene when player dies
+		SceneManager.LoadScene ("PostGameScene");	//call post game scene when player dies
 	}
 
 	void WrongColor(GameObject infoCollider){																	//function for when player hits wrong color

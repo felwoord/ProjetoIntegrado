@@ -36,7 +36,7 @@ public class AutoDestroy : MonoBehaviour {
 
 	void HealthBarZero(){   						//function for when health bar comes to zero
 		Debug.Log ("Game Over");					
-		SceneManager.LoadScene ("GetNickScene");	//call get nick scene when player dies
+		SceneManager.LoadScene ("PostGameScene");	//call post game scene when player dies
 	}
 		
 	public void SetX(int aux){						//function to set x position

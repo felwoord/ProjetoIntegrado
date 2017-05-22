@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Arrow : MonoBehaviour {
 
@@ -20,12 +21,22 @@ public class Arrow : MonoBehaviour {
 	}
 	void OnTriggerEnter2D(Collider2D infoCollider){
 		if (infoCollider.tag == "Right Hand") {
-			healthBar.fillAmount -= 0.05f;
-			Destroy (gameObject);
+			Collided (infoCollider);
+		
 		}
 		if (infoCollider.tag == "Left Hand") {
-			healthBar.fillAmount -= 0.05f;
-			Destroy (gameObject);
+			Collided (infoCollider);
+		}
+	}
+
+	void Collided (Collider2D infoCollider){
+		healthBar.fillAmount -= 0.05f;
+		Destroy (gameObject);
+		if (healthBar.fillAmount == 0) {																//if health bar is zero
+			GameObject.Find("Left Hand").GetComponent<LeftHand>().SaveStatsP0();						//Call function SaveStatsP0, from LeftHand Script
+			GameObject.Find("Right Hand").GetComponent<RightHand>().SaveStatsP1();						//Call function SaveStatsP1, from RightHand Script
+			GameObject.Find("Main Camera").GetComponent<SequencesGenerator>().SaveStatsSequenceGen();	//Call function SaveStatsSequenceGen, from SequenceGenerator Script
+			SceneManager.LoadScene ("PostGameScene");
 		}
 	}
 }
