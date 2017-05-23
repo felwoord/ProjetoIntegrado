@@ -21,6 +21,9 @@ public class Bullet : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D infoCollider){
 		if (infoCollider.tag == "Turret") {
+			int x = infoCollider.GetComponent<Turret> ().getPositionX ();
+			int y = infoCollider.GetComponent<Turret> ().getPositionY ();
+			GameObject.Find ("Main Camera").GetComponent<SequencesGenerator> ().setBoolTurretFalse (x, y);
 			Destroy (infoCollider.gameObject);
 		}
 	}

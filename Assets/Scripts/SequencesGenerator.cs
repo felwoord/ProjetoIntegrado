@@ -8,6 +8,7 @@ public class SequencesGenerator : MonoBehaviour {
 	private GameObject[,] board;		//board
 	private int p,q,r;					//random numbers
 	private float period, difficult, t;	//timer, difficult (how often colors respawn)
+	private float g;
 	private int boardCounter;			//BoolBoard counter
 	private GameObject childObject;		//children objects
 	private int selfDestroyed;			//number of self destroyed colors
@@ -15,10 +16,17 @@ public class SequencesGenerator : MonoBehaviour {
 	private Vector3 localScaleSize = new Vector3 (0.3f, 0.3f, 0.3f); //local scale size of color
 	private bool difficultBool = true;	//bool to make difficult stop decrement on difficult
 	public float minDifficult;			//minimun value to difficult
+	private bool[,] boolTurret;
+	private GameObject turret;
 
 	void Start () {
+		boolTurret = new bool[2, 2];
+		boolTurret [0, 0] = false;
+		boolTurret [0, 1] = false;
+		boolTurret [1, 0] = false;
+		boolTurret [1, 1] = false;
 		selfDestroyed = 0;										//start self destroyed at zero
-		PlayerPrefs.SetInt ("selfDestroyed", selfDestroyed);		//set it on player prefs
+		PlayerPrefs.SetInt ("selfDestroyed", selfDestroyed);	//set it on player prefs
 		board = new GameObject[7,14];							//set board size
 		boolBoard = new bool[7,14];								//set bool board size
 		difficult = 5.0f;										//initiate difficult at 5 seconds
@@ -75,12 +83,12 @@ public class SequencesGenerator : MonoBehaviour {
 		}
 
 
-		//every 2 seconds colors respawn 0.1 seconds faster
-		if (t > 2) {
+		//every 3 seconds colors respawn 0.1 seconds faster
+		if (t > 3) {
 			if (difficultBool) {
 				difficult -= 0.1f;	
 			}
-			Debug.Log (difficult);
+			//Debug.Log (difficult);
 
 			t = 0;
 			if (difficult <= minDifficult) {
@@ -89,9 +97,25 @@ public class SequencesGenerator : MonoBehaviour {
 		}
 
 
+
+
+
+		if (g > 8) {
+			for (int i = 0; i <= 1; i++) {
+				for (int j = 0; j <= 1; j++) {
+					if (boolTurret [i, j] == false) {
+						turret = Instantiate (Resources.Load ("Turret")) as GameObject;
+						turret.GetComponent<Turret> ().setPosition (i, j);
+						boolTurret [i, j] = true;
+					}
+				}
+			}
+			g = 0;
+		}
+
 		period += UnityEngine.Time.deltaTime;	//increment timer 
 		t += UnityEngine.Time.deltaTime;		//increment counter
-
+		g += Time.deltaTime;
 	}
 		
 
@@ -185,5 +209,9 @@ public class SequencesGenerator : MonoBehaviour {
 
 	public void AddSelfDestroyed(){
 		selfDestroyed++;
+	}
+
+	public void setBoolTurretFalse(int a, int b){
+		boolTurret [a, b] = false;
 	}
 }
