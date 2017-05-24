@@ -32,6 +32,17 @@ public class Bullet : MonoBehaviour {
 			}
 			Destroy (infoCollider.gameObject);
 		}
+
+		if (infoCollider.tag == "Turret2") {
+			GameObject.Find ("Main Camera").GetComponent<SequencesGenerator> ().setBoolTurret2False();
+			if (shooter == 0) {
+				GameObject.Find ("Left Hand").GetComponent<LeftHand> ().addToTurretsDestroyedP0 ();
+			}
+			if (shooter == 1) {
+				GameObject.Find ("Right Hand").GetComponent<RightHand> ().addToTurretsDestroyedP1 ();
+			}
+			Destroy (infoCollider.gameObject);
+		}
 	}
 
 	public void setShooter(int a){
