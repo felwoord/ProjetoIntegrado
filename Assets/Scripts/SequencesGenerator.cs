@@ -21,6 +21,8 @@ public class SequencesGenerator : MonoBehaviour {
 	private bool boolTurret2;
 	private GameObject turret2;
 
+	private GameObject numberSprite;
+
 	void Start () {
 		boolTurret = new bool[2, 2];
 		boolTurret [0, 0] = false;
@@ -143,6 +145,10 @@ public class SequencesGenerator : MonoBehaviour {
 			boolBoard [a, b] = true;																			//set bool board at position a,b to true
 			childObject.GetComponent<AutoDestroy> ().SetX (a);													//set position X in AutoDestroy script
 			childObject.GetComponent<AutoDestroy> ().SetY (b);													//set position Y in AutoDestroy script
+
+			numberSprite = Instantiate (Resources.Load ("Sprites/SpriteBlack6")) as GameObject;
+			numberSprite.transform.parent = childObject.transform;
+			numberSprite.transform.localPosition = new Vector2 (0, 0);
 			break;
 				
 		case 1:																									//case c = 1
@@ -155,6 +161,10 @@ public class SequencesGenerator : MonoBehaviour {
 			boolBoard [a, b] = true;																			//set bool board at position a,b to true
 			childObject.GetComponent<AutoDestroy> ().SetX (a);													//set position X in AutoDestroy script
 			childObject.GetComponent<AutoDestroy> ().SetY (b);													//set position Y in AutoDestroy script
+
+			numberSprite = Instantiate (Resources.Load ("Sprites/SpriteBlue1")) as GameObject;
+			numberSprite.transform.parent = childObject.transform;
+			numberSprite.transform.localPosition = new Vector2 (0, 0);
 			break;
 		
 		case 2:																									//c = 2
@@ -167,6 +177,10 @@ public class SequencesGenerator : MonoBehaviour {
 			boolBoard [a, b] = true;
 			childObject.GetComponent<AutoDestroy> ().SetX (a);
 			childObject.GetComponent<AutoDestroy> ().SetY (b);
+
+			numberSprite = Instantiate (Resources.Load ("Sprites/SpriteGreen4")) as GameObject;
+			numberSprite.transform.parent = childObject.transform;
+			numberSprite.transform.localPosition = new Vector2 (0, 0);
 			break;
 
 		case 3:																									//c = 3
@@ -179,6 +193,10 @@ public class SequencesGenerator : MonoBehaviour {
 			boolBoard [a, b] = true;
 			childObject.GetComponent<AutoDestroy> ().SetX (a);
 			childObject.GetComponent<AutoDestroy> ().SetY (b);
+
+			numberSprite = Instantiate (Resources.Load ("Sprites/SpriteRed5")) as GameObject;
+			numberSprite.transform.parent = childObject.transform;
+			numberSprite.transform.localPosition = new Vector2 (0, 0);
 			break;
 
 		case 4:																									//c = 4
@@ -191,6 +209,10 @@ public class SequencesGenerator : MonoBehaviour {
 			boolBoard [a, b] = true;
 			childObject.GetComponent<AutoDestroy> ().SetX (a);
 			childObject.GetComponent<AutoDestroy> ().SetY (b);
+
+			numberSprite = Instantiate (Resources.Load ("Sprites/SpriteWhite3")) as GameObject;
+			numberSprite.transform.parent = childObject.transform;
+			numberSprite.transform.localPosition = new Vector2 (0, 0);
 			break;
 
 		case 5:																									//c = 5
@@ -203,6 +225,10 @@ public class SequencesGenerator : MonoBehaviour {
 			boolBoard [a, b] = true;
 			childObject.GetComponent<AutoDestroy> ().SetX (a);
 			childObject.GetComponent<AutoDestroy> ().SetY (b);
+
+			numberSprite = Instantiate (Resources.Load ("Sprites/SpriteYellow2")) as GameObject;
+			numberSprite.transform.parent = childObject.transform;
+			numberSprite.transform.localPosition = new Vector2 (0, 0);
 			break;
 		}
 	}
