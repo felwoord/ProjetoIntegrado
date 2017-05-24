@@ -12,7 +12,7 @@ public class RulesAndCredits : MonoBehaviour {
 	}
 
 	void Update () {
-		if (InputArcade.Apertou (0, EControle.AZUL)) {		//If Player 1 press VERDE button
+		if (InputArcade.Apertou (0, EControle.AZUL)) {		//If Player 1 press AZUL button
 			SceneManager.LoadScene ("MenuScene");			//Load Menu Scene
 		}	
 	}

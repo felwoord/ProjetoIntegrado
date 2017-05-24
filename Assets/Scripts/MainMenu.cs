@@ -60,7 +60,7 @@ public class MainMenu : MonoBehaviour {
 		}
 		if (currentPosition == position3) {								//if current position = position 3
 			if (InputArcade.Apertou (0, EControle.AZUL)) {				//if player 1 press VERDE button
-				SceneManager.LoadScene ("RankingScene");				//load RankScene
+				SceneManager.LoadScene ("NewRankingScene");				//load RankScene
 			}
 		}
 
