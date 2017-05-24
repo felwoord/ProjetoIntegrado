@@ -68,8 +68,11 @@ public class LeftHand : MonoBehaviour {
 		if (multiplierP0 > maxMultiplierP0) {							//if current mult. > max mult.								
 			maxMultiplierP0 = multiplierP0;								//max mult. = current mult.
 		}
+		if (energyBar.fillAmount < 0.2f) {
+			energyBar.fillAmount = 0;
+		}
 		if (energyBar.fillAmount > 0) {
-			if (InputArcade.Apertou (jogador, EControle.AZUL) && InputArcade.Apertou (jogador, EControle.AMARELO)) {																											
+			if (InputArcade.Apertou (jogador, EControle.AZUL) && InputArcade.Apertado (jogador, EControle.AMARELO)) {																											
 				leftHandPosition = new Vector3 (transform.position.x, transform.position.y, transform.position.z);
 				rightHandTransform = GameObject.Find ("Right Hand").GetComponent<Transform> ();
 				rightHandPosition = new Vector3 (rightHandTransform.position.x, rightHandTransform.position.y, rightHandTransform.position.z);
@@ -185,6 +188,35 @@ public class LeftHand : MonoBehaviour {
 		int auxX = infoCollider.gameObject.GetComponent<AutoDestroy>().getX();									//get color's position X 
 		int auxY = infoCollider.gameObject.GetComponent<AutoDestroy>().getY();									//get color's position Y
 		GameObject.Find ("Main Camera").GetComponent<SequencesGenerator> ().setBoolBoardFalse (auxX, auxY);		//set position on bool board to false
+
+		GameObject spriteAfterDestroy = Instantiate (Resources.Load ("Animation/WrongColorAnimation")) as GameObject;	
+		spriteAfterDestroy.transform.position = infoCollider.transform.position;
+		spriteAfterDestroy.transform.rotation = infoCollider.transform.rotation;
+		if (infoCollider.tag == "Black") {
+			spriteAfterDestroy.tag = "Black";
+			spriteAfterDestroy.GetComponent<SpriteRenderer>().color = Color.black;
+		}
+		if (infoCollider.tag == "Blue") {
+			spriteAfterDestroy.tag = "Blue";
+			spriteAfterDestroy.GetComponent<SpriteRenderer>().color = Color.blue;
+		}
+		if (infoCollider.tag == "Yellow") {
+			spriteAfterDestroy.tag = "Yellow";
+			spriteAfterDestroy.GetComponent<SpriteRenderer>().color = Color.yellow;
+		}
+		if (infoCollider.tag == "Green") {
+			spriteAfterDestroy.tag = "Green";
+			spriteAfterDestroy.GetComponent<SpriteRenderer>().color = Color.green;
+		}
+		if (infoCollider.tag == "Red") {
+			spriteAfterDestroy.tag = "Red";
+			spriteAfterDestroy.GetComponent<SpriteRenderer>().color = Color.red;
+		}
+		if (infoCollider.tag == "White") {
+			spriteAfterDestroy.tag = "White";
+			spriteAfterDestroy.GetComponent<SpriteRenderer>().color = Color.white;
+		}
+
 		Destroy (infoCollider);																					//Destroy the wrong color
 		Debug.Log("Not ok");						
 		healthBar.fillAmount -= 0.1f;																			//remove 10% from health

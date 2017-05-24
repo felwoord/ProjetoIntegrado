@@ -107,8 +107,10 @@ public class SequencesGenerator : MonoBehaviour {
 		if (h > 15) {
 			if (boolTurret2 == false) {
 				turret2 = Instantiate (Resources.Load ("Turret2")) as GameObject;
+				turret2.GetComponent<SpriteRenderer> ().color = Color.red;
 				boolTurret2 = true;
 			}
+			h = 0;
 		}
 		if (g > 10) {
 			for (int i = 0; i <= 1; i++) {
