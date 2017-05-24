@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 public class Bullet : MonoBehaviour {
-
+	private int shooter; //0 = p1, 1 = p2
 	// Use this for initialization
 	void Start () {
 
@@ -24,7 +24,17 @@ public class Bullet : MonoBehaviour {
 			int x = infoCollider.GetComponent<Turret> ().getPositionX ();
 			int y = infoCollider.GetComponent<Turret> ().getPositionY ();
 			GameObject.Find ("Main Camera").GetComponent<SequencesGenerator> ().setBoolTurretFalse (x, y);
+			if (shooter == 0) {
+				GameObject.Find ("Left Hand").GetComponent<LeftHand> ().addToTurretsDestroyedP0 ();
+			}
+			if (shooter == 1) {
+				GameObject.Find ("Right Hand").GetComponent<RightHand> ().addToTurretsDestroyedP1 ();
+			}
 			Destroy (infoCollider.gameObject);
 		}
+	}
+
+	public void setShooter(int a){
+		shooter = a;
 	}
 }

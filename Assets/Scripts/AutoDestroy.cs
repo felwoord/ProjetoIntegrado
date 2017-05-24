@@ -15,6 +15,8 @@ public class AutoDestroy : MonoBehaviour {
 	}
 
 	void Update () {
+		transform.Rotate (Vector3.forward * -0.5f);
+
 		timer += Time.deltaTime;																			//increment timer 
 
 		if (timer >= 5) {																					//if 5 seconds has passed

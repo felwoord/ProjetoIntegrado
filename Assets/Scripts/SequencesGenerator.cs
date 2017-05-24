@@ -116,6 +116,7 @@ public class SequencesGenerator : MonoBehaviour {
 		period += UnityEngine.Time.deltaTime;	//increment timer 
 		t += UnityEngine.Time.deltaTime;		//increment counter
 		g += Time.deltaTime;
+
 	}
 		
 

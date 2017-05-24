@@ -22,6 +22,8 @@ public class LeftHand : MonoBehaviour {
 	private float bulletDirectionMagnitude;
 	public float bulletForce;
 
+	private int turretsDestroyedP0;
+
 	void Start () {
 		scoreP0Text = GameObject.Find ("ScoreP0Text").GetComponent<Text> ();			//get Player 1 score Text Component	
 		multiplierP0Text = GameObject.Find ("MultiplierP0Text").GetComponent<Text> ();	//get Player 1 multiplier Text Component
@@ -31,12 +33,14 @@ public class LeftHand : MonoBehaviour {
 		multiplierP0 = 1;																//initiate Player 1 multiplier at one
 		rightsP0 = 0;																	//initiate Player 1 rights at zero
 		maxMultiplierP0 = 0;															//initiate Player 1 max mult. at zero
+		turretsDestroyedP0 = 0;
 
 		PlayerPrefs.SetFloat ("scoreP0", scoreP0);						//set score in playerpref
 		PlayerPrefs.SetFloat ("missesP0", missesP0);					//set misses in playerpref
 		PlayerPrefs.SetFloat ("multiplierP0", multiplierP0);			//set multiplier in playerpref
 		PlayerPrefs.SetFloat ("rightsP0", rightsP0);					//set rights in playerpref
 		PlayerPrefs.SetFloat ("maxMultiplierP0", maxMultiplierP0);		//set max multiplier in playerpref
+		PlayerPrefs.SetInt ("turretsDestroyedP0", turretsDestroyedP0);
 
 		SetScoreText ();												//set text score at zero on screen
 		SetMultiplierText();											//set text multiplier at zero on screen
@@ -63,7 +67,8 @@ public class LeftHand : MonoBehaviour {
 			leftHandPosition = new Vector3 (transform.position.x, transform.position.y, transform.position.z);
 			rightHandTransform = GameObject.Find("Right Hand").GetComponent<Transform>();
 			rightHandPosition = new Vector3 (rightHandTransform.position.x, rightHandTransform.position.y, rightHandTransform.position.z);
-			bullet = Instantiate (Resources.Load ("Bullet")) as GameObject;	
+			bullet = Instantiate (Resources.Load ("Bullet")) as GameObject;
+			bullet.GetComponent<Bullet> ().setShooter (jogador);
 			bullet.transform.position = new Vector2 (rightHandPosition.x, rightHandPosition.y);
 			bulletDirection = rightHandPosition - leftHandPosition;
 			bulletDirectionMagnitude = bulletDirection.magnitude;
@@ -184,6 +189,34 @@ public class LeftHand : MonoBehaviour {
 		int auxX = infoCollider.gameObject.GetComponent<AutoDestroy>().getX();									//get color's position X 
 		int auxY = infoCollider.gameObject.GetComponent<AutoDestroy>().getY();									//get color's position Y
 		GameObject.Find ("Main Camera").GetComponent<SequencesGenerator> ().setBoolBoardFalse (auxX, auxY);		//set position on bool board to false
+		GameObject spriteAfterDestroy = Instantiate (Resources.Load ("Sprites/SpriteAfterDestroy")) as GameObject;	
+		spriteAfterDestroy.transform.position = infoCollider.transform.position;
+		spriteAfterDestroy.transform.rotation = infoCollider.transform.rotation;
+		if (infoCollider.tag == "Black") {
+			spriteAfterDestroy.tag = "Black";
+			spriteAfterDestroy.GetComponent<SpriteRenderer>().color = Color.black;
+		}
+		if (infoCollider.tag == "Blue") {
+			spriteAfterDestroy.tag = "Blue";
+			spriteAfterDestroy.GetComponent<SpriteRenderer>().color = Color.blue;
+		}
+		if (infoCollider.tag == "Yellow") {
+			spriteAfterDestroy.tag = "Yellow";
+			spriteAfterDestroy.GetComponent<SpriteRenderer>().color = Color.yellow;
+		}
+		if (infoCollider.tag == "Green") {
+			spriteAfterDestroy.tag = "Green";
+			spriteAfterDestroy.GetComponent<SpriteRenderer>().color = Color.green;
+		}
+		if (infoCollider.tag == "Red") {
+			spriteAfterDestroy.tag = "Red";
+			spriteAfterDestroy.GetComponent<SpriteRenderer>().color = Color.red;
+		}
+		if (infoCollider.tag == "White") {
+			spriteAfterDestroy.tag = "White";
+			spriteAfterDestroy.GetComponent<SpriteRenderer>().color = Color.white;
+		}
+
 		Destroy (infoCollider);																					//Destroy the right color
 		multiplierP0++;																							//Add 1 to multiplier
 		rightsP0 ++;																							//Add 1 to rights 
@@ -195,10 +228,15 @@ public class LeftHand : MonoBehaviour {
 		PlayerPrefs.SetFloat ("multiplierP0", multiplierP0);			//set multiplier in playerpref
 		PlayerPrefs.SetFloat ("rightsP0", rightsP0);					//set rights in playerpref
 		PlayerPrefs.SetFloat ("maxMultiplierP0", maxMultiplierP0);		//set max multiplier in playerpref
+		PlayerPrefs.SetInt ("turretsDestroyedP0", turretsDestroyedP0);
 		PlayerPrefs.Save ();											//and saves it
 	}
 
 	public void SetMultiplierP0(float aux){								//Set Player 1 multiplier function
 		multiplierP0 = aux;												//to aux
+	}
+
+	public void addToTurretsDestroyedP0(){
+		turretsDestroyedP0++;
 	}
 }

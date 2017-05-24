@@ -22,6 +22,8 @@ public class RightHand : MonoBehaviour {
 	private float bulletDirectionMagnitude;
 	public float bulletForce;
 
+	private int turretsDestroyedP1;
+
 	void Start () {
 		scoreP1Text = GameObject.Find ("ScoreP1Text").GetComponent<Text> ();			//get Player 2 score Text Component	
 		multiplierP1Text = GameObject.Find ("MultiplierP1Text").GetComponent<Text> ();	//get Player 2 multiplier Text Component
@@ -31,12 +33,14 @@ public class RightHand : MonoBehaviour {
 		multiplierP1 = 1;																//initiate Player 2 multiplier at one
 		rightsP1 = 0;																	//initiate Player 2 rights at zero
 		maxMultiplierP1 = 0;															//initiate Player 2 max mult. at zero
+		turretsDestroyedP1 = 0;
 
 		PlayerPrefs.SetFloat ("scoreP1", scoreP1);						//set score in playerpref
 		PlayerPrefs.SetFloat ("missesP1", missesP1);					//set misses in playerpref
 		PlayerPrefs.SetFloat ("multiplierP1", multiplierP1);			//set multiplier in playerpref
 		PlayerPrefs.SetFloat ("rightsP1", rightsP1);					//set rights in playerpref
 		PlayerPrefs.SetFloat ("maxMultiplierP1", maxMultiplierP1);		//set max multiplier in playerpref
+		PlayerPrefs.SetInt ("turretsDestroyedP1", turretsDestroyedP1);
 
 		SetScoreText ();												//set text score at zero on screen
 		SetMultiplierText();											//set text multiplier at zero on screen
@@ -64,6 +68,7 @@ public class RightHand : MonoBehaviour {
 			leftHandTransform = GameObject.Find("Left Hand").GetComponent<Transform>();
 			leftHandPosition = new Vector3 (leftHandTransform.position.x, leftHandTransform.position.y, leftHandTransform.position.z);
 			bullet = Instantiate (Resources.Load ("Bullet")) as GameObject;	
+			bullet.GetComponent<Bullet> ().setShooter (jogador);
 			bullet.transform.position = new Vector2 (leftHandPosition.x, leftHandPosition.y);
 			bulletDirection = leftHandPosition - rightHandPosition;
 			bulletDirectionMagnitude = bulletDirection.magnitude;
@@ -186,6 +191,33 @@ public class RightHand : MonoBehaviour {
 		int auxX = infoCollider.gameObject.GetComponent<AutoDestroy>().getX();									//get color's position X 
 		int auxY = infoCollider.gameObject.GetComponent<AutoDestroy>().getY();									//get color's position Y
 		GameObject.Find ("Main Camera").GetComponent<SequencesGenerator> ().setBoolBoardFalse (auxX, auxY);		//set position on bool board to false
+		GameObject spriteAfterDestroy = Instantiate (Resources.Load ("Sprites/SpriteAfterDestroy")) as GameObject;	
+		spriteAfterDestroy.transform.position = infoCollider.transform.position;
+		spriteAfterDestroy.transform.rotation = infoCollider.transform.rotation;
+		if (infoCollider.tag == "Black") {
+			spriteAfterDestroy.tag = "Black";
+			spriteAfterDestroy.GetComponent<SpriteRenderer>().color = Color.black;
+		}
+		if (infoCollider.tag == "Blue") {
+			spriteAfterDestroy.tag = "Blue";
+			spriteAfterDestroy.GetComponent<SpriteRenderer>().color = Color.blue;
+		}
+		if (infoCollider.tag == "Yellow") {
+			spriteAfterDestroy.tag = "Yellow";
+			spriteAfterDestroy.GetComponent<SpriteRenderer>().color = Color.yellow;
+		}
+		if (infoCollider.tag == "Green") {
+			spriteAfterDestroy.tag = "Green";
+			spriteAfterDestroy.GetComponent<SpriteRenderer>().color = Color.green;
+		}
+		if (infoCollider.tag == "Red") {
+			spriteAfterDestroy.tag = "Red";
+			spriteAfterDestroy.GetComponent<SpriteRenderer>().color = Color.red;
+		}
+		if (infoCollider.tag == "White") {
+			spriteAfterDestroy.tag = "White";
+			spriteAfterDestroy.GetComponent<SpriteRenderer>().color = Color.white;
+		}
 		Destroy (infoCollider);																					//Destroy the right color
 		multiplierP1++;																							//Add 1 to multiplier
 		rightsP1 ++;																							//Add 1 to rights 
@@ -197,10 +229,14 @@ public class RightHand : MonoBehaviour {
 		PlayerPrefs.SetFloat ("multiplierP1", multiplierP1);			//set multiplier in playerpref
 		PlayerPrefs.SetFloat ("rightsP1", rightsP1);					//set rights in playerpref
 		PlayerPrefs.SetFloat ("maxMultiplierP1", maxMultiplierP1);		//set max multiplier in playerpref
+		PlayerPrefs.SetInt ("turretsDestroyedP1", turretsDestroyedP1);
 		PlayerPrefs.Save ();											//and saves it
 	}
 
 	public void SetMultiplierP1(float aux){								//Set Player 2 multiplier function
 		multiplierP1 = aux;												//to aux
+	}
+	public void addToTurretsDestroyedP1(){
+		turretsDestroyedP1++;
 	}
 }
