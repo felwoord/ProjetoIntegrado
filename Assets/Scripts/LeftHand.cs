@@ -15,6 +15,7 @@ public class LeftHand : MonoBehaviour {
 	private Text scoreP0Text;								//score text on screen
 	private Text multiplierP0Text;							//current multiplier text on screen
 	private Image healthBar;								//health bar image on screen
+	private Image energyBar;
 
 	private Transform rightHandTransform;
 	private Vector3 leftHandPosition, rightHandPosition, bulletDirection, bulletDirectionVersor;
@@ -22,17 +23,21 @@ public class LeftHand : MonoBehaviour {
 	private float bulletDirectionMagnitude;
 	public float bulletForce;
 
+	private int hitsP0;
+
 	private int turretsDestroyedP0;
 
 	void Start () {
 		scoreP0Text = GameObject.Find ("ScoreP0Text").GetComponent<Text> ();			//get Player 1 score Text Component	
 		multiplierP0Text = GameObject.Find ("MultiplierP0Text").GetComponent<Text> ();	//get Player 1 multiplier Text Component
 		healthBar = GameObject.Find ("HealthBar").GetComponent<Image> ();				//get Health Bar Image
+		energyBar = GameObject.Find("EnergyBar").GetComponent<Image>();
 		missesP0 = 0;																	//initiate Player 1 misses at zero
 		scoreP0 = 0;																	//initiate Player 1 score at zero
 		multiplierP0 = 1;																//initiate Player 1 multiplier at one
 		rightsP0 = 0;																	//initiate Player 1 rights at zero
 		maxMultiplierP0 = 0;															//initiate Player 1 max mult. at zero
+		hitsP0 = 0;
 		turretsDestroyedP0 = 0;
 
 		PlayerPrefs.SetFloat ("scoreP0", scoreP0);						//set score in playerpref
@@ -41,6 +46,7 @@ public class LeftHand : MonoBehaviour {
 		PlayerPrefs.SetFloat ("rightsP0", rightsP0);					//set rights in playerpref
 		PlayerPrefs.SetFloat ("maxMultiplierP0", maxMultiplierP0);		//set max multiplier in playerpref
 		PlayerPrefs.SetInt ("turretsDestroyedP0", turretsDestroyedP0);
+		PlayerPrefs.SetInt ("hitsP0", hitsP0);
 
 		SetScoreText ();												//set text score at zero on screen
 		SetMultiplierText();											//set text multiplier at zero on screen
@@ -62,19 +68,20 @@ public class LeftHand : MonoBehaviour {
 		if (multiplierP0 > maxMultiplierP0) {							//if current mult. > max mult.								
 			maxMultiplierP0 = multiplierP0;								//max mult. = current mult.
 		}
-
-		if (InputArcade.Apertou(jogador, EControle.AZUL)){																											
-			leftHandPosition = new Vector3 (transform.position.x, transform.position.y, transform.position.z);
-			rightHandTransform = GameObject.Find("Right Hand").GetComponent<Transform>();
-			rightHandPosition = new Vector3 (rightHandTransform.position.x, rightHandTransform.position.y, rightHandTransform.position.z);
-			bullet = Instantiate (Resources.Load ("Bullet")) as GameObject;
-			bullet.GetComponent<Bullet> ().setShooter (jogador);
-			bullet.transform.position = new Vector2 (rightHandPosition.x, rightHandPosition.y);
-			bulletDirection = rightHandPosition - leftHandPosition;
-			bulletDirectionMagnitude = bulletDirection.magnitude;
-			bulletDirectionVersor = new Vector3 (bulletDirection.x / bulletDirectionMagnitude, bulletDirection.y / bulletDirectionMagnitude, bulletDirection.z / bulletDirectionMagnitude);
-			bullet.GetComponent<Rigidbody2D> ().AddForce (bulletDirectionVersor * bulletForce/bulletDirectionMagnitude);
-			
+		if (energyBar.fillAmount > 0) {
+			if (InputArcade.Apertou (jogador, EControle.AZUL) && InputArcade.Apertou (jogador, EControle.AMARELO)) {																											
+				leftHandPosition = new Vector3 (transform.position.x, transform.position.y, transform.position.z);
+				rightHandTransform = GameObject.Find ("Right Hand").GetComponent<Transform> ();
+				rightHandPosition = new Vector3 (rightHandTransform.position.x, rightHandTransform.position.y, rightHandTransform.position.z);
+				bullet = Instantiate (Resources.Load ("Bullet")) as GameObject;
+				bullet.GetComponent<Bullet> ().setShooter (jogador);
+				bullet.transform.position = new Vector2 (rightHandPosition.x, rightHandPosition.y);
+				bulletDirection = rightHandPosition - leftHandPosition;
+				bulletDirectionMagnitude = bulletDirection.magnitude;
+				bulletDirectionVersor = new Vector3 (bulletDirection.x / bulletDirectionMagnitude, bulletDirection.y / bulletDirectionMagnitude, bulletDirection.z / bulletDirectionMagnitude);
+				bullet.GetComponent<Rigidbody2D> ().AddForce (bulletDirectionVersor * bulletForce / bulletDirectionMagnitude);
+				energyBar.fillAmount -= 0.2f;
+			}
 		}
 	}
 		
@@ -220,6 +227,9 @@ public class LeftHand : MonoBehaviour {
 		Destroy (infoCollider);																					//Destroy the right color
 		multiplierP0++;																							//Add 1 to multiplier
 		rightsP0 ++;																							//Add 1 to rights 
+		if (multiplierP0 >= 5){
+			energyBar.fillAmount += 0.2f;
+		}
 	}
 
 	public void SaveStatsP0(){											//Function to save P1 current stats
@@ -229,6 +239,7 @@ public class LeftHand : MonoBehaviour {
 		PlayerPrefs.SetFloat ("rightsP0", rightsP0);					//set rights in playerpref
 		PlayerPrefs.SetFloat ("maxMultiplierP0", maxMultiplierP0);		//set max multiplier in playerpref
 		PlayerPrefs.SetInt ("turretsDestroyedP0", turretsDestroyedP0);
+		PlayerPrefs.SetInt ("hitsP0", hitsP0);
 		PlayerPrefs.Save ();											//and saves it
 	}
 
@@ -238,5 +249,9 @@ public class LeftHand : MonoBehaviour {
 
 	public void addToTurretsDestroyedP0(){
 		turretsDestroyedP0++;
+	}
+
+	public void addToHitsP0(){
+		hitsP0++;
 	}
 }

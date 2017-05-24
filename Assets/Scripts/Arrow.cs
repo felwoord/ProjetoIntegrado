@@ -31,6 +31,12 @@ public class Arrow : MonoBehaviour {
 
 	void Collided (Collider2D infoCollider){
 		healthBar.fillAmount -= 0.05f;
+		if (infoCollider.tag == "Left Hand") {
+			infoCollider.GetComponent<LeftHand> ().addToHitsP0 ();
+		}
+		if (infoCollider.tag == "Right Hand") {
+			infoCollider.GetComponent<RightHand> ().addToHitsP1 ();
+		}
 		Destroy (gameObject);
 		if (healthBar.fillAmount == 0) {																//if health bar is zero
 			GameObject.Find("Left Hand").GetComponent<LeftHand>().SaveStatsP0();						//Call function SaveStatsP0, from LeftHand Script

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Turret : MonoBehaviour {
 	float t;
-	private Transform rightHandTransform;
-	private Vector3 turretPosition, rightHandPosition, arrowDirection, arrowDirectionVersor;
+	private Transform handTransform;
+	private Vector3 turretPosition, handPosition, arrowDirection, arrowDirectionVersor;
 	private GameObject arrow;
 	private float arrowDirectionMagnitude;
 	private float arrowForce;
@@ -23,19 +23,24 @@ public class Turret : MonoBehaviour {
 		arrowForce = Random.Range (300, 500);
 		period = Random.Range (3, 10);
 		attackDellay = Random.Range (3, 10);
-
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		transform.position = new Vector3 (inicialPositionX, inicialPositionY + amplitude * Mathf.Sin (period * Time.time), 0);
 		if (t >= attackDellay) {
-			rightHandTransform = GameObject.Find("Right Hand").GetComponent<Transform>();
-			rightHandPosition = new Vector3 (rightHandTransform.position.x, rightHandTransform.position.y, rightHandTransform.position.z);
+			int i = Random.Range (0, 2);
+			if (i == 0) {
+				handTransform = GameObject.Find("Left Hand").GetComponent<Transform>();
+			}
+			if (i == 1) {
+				handTransform = GameObject.Find("Right Hand").GetComponent<Transform>();
+			}
+			handPosition = new Vector3 (handTransform.position.x, handTransform.position.y, handTransform.position.z);
 			turretPosition = new Vector3 (transform.position.x, transform.position.y, transform.position.z);
 			arrow = Instantiate (Resources.Load ("Arrow")) as GameObject;
 			arrow.transform.position = new Vector2 (turretPosition.x, turretPosition.y);
-			arrowDirection = rightHandPosition - turretPosition;
+			arrowDirection = handPosition - turretPosition;
 			arrow.transform.LookAt (arrowDirection);
 			if (arrow.transform.rotation.y > 1) {
 				arrow.transform.Rotate (arrow.transform.rotation.x, -90, transform.rotation.z);
@@ -61,6 +66,7 @@ public class Turret : MonoBehaviour {
 		switch (x) {
 		case 0:
 			inicialPositionX = positionsX [0];
+			gameObject.GetComponent<SpriteRenderer> ().flipX = true;
 			break;
 		case 1:
 			inicialPositionX = positionsX [1];
