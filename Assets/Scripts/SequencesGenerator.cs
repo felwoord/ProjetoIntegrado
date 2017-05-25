@@ -153,21 +153,21 @@ public class SequencesGenerator : MonoBehaviour {
 			numberSprite.transform.localPosition = new Vector2 (0, 0);
 			break;
 				
-		case 1:																									//case c = 1
-			childObject = Instantiate (Resources.Load ("Blue")) as GameObject;									//instantiate Blue as object
-			childObject.transform.parent = board [a, b].transform;												//set as child object from position generated from a and b
-			childObject.transform.localPosition = new Vector2 (0, 0);											//set position to (0,0) (center of the parent object
-			childObject.transform.localScale = localScaleSize;													//set size to localScaleSize
-			BoxCollider2D boxCollider1 = childObject.AddComponent<BoxCollider2D> () as BoxCollider2D;			//add box collier to object
-			boxCollider1.isTrigger = true;																		//active isTrigger
-			boolBoard [a, b] = true;																			//set bool board at position a,b to true
-			childObject.GetComponent<AutoDestroy> ().SetX (a);													//set position X in AutoDestroy script
-			childObject.GetComponent<AutoDestroy> ().SetY (b);													//set position Y in AutoDestroy script
-
-			numberSprite = Instantiate (Resources.Load ("Sprites/SpriteBlue1")) as GameObject;
-			numberSprite.transform.parent = childObject.transform;
-			numberSprite.transform.localPosition = new Vector2 (0, 0);
-			break;
+//		case 1:																									//case c = 1
+//			childObject = Instantiate (Resources.Load ("Blue")) as GameObject;									//instantiate Blue as object
+//			childObject.transform.parent = board [a, b].transform;												//set as child object from position generated from a and b
+//			childObject.transform.localPosition = new Vector2 (0, 0);											//set position to (0,0) (center of the parent object
+//			childObject.transform.localScale = localScaleSize;													//set size to localScaleSize
+//			BoxCollider2D boxCollider1 = childObject.AddComponent<BoxCollider2D> () as BoxCollider2D;			//add box collier to object
+//			boxCollider1.isTrigger = true;																		//active isTrigger
+//			boolBoard [a, b] = true;																			//set bool board at position a,b to true
+//			childObject.GetComponent<AutoDestroy> ().SetX (a);													//set position X in AutoDestroy script
+//			childObject.GetComponent<AutoDestroy> ().SetY (b);													//set position Y in AutoDestroy script
+//
+//			numberSprite = Instantiate (Resources.Load ("Sprites/SpriteBlue1")) as GameObject;
+//			numberSprite.transform.parent = childObject.transform;
+//			numberSprite.transform.localPosition = new Vector2 (0, 0);
+//			break;
 		
 		case 2:																									//c = 2
 			childObject = Instantiate (Resources.Load ("Green")) as GameObject;									//Green
