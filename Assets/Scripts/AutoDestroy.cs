@@ -21,6 +21,35 @@ public class AutoDestroy : MonoBehaviour {
 
 		if (timer >= 5) {																					//if 5 seconds has passed
 			GameObject.Find ("Main Camera").GetComponent<SequencesGenerator> ().setBoolBoardFalse (x, y);	//set position on BoolBoard on x,y position to false
+
+			GameObject spriteAfterDestroy = Instantiate (Resources.Load ("Animation/WrongColorAnimation")) as GameObject;	
+			spriteAfterDestroy.transform.position = transform.position;
+			spriteAfterDestroy.transform.rotation = transform.rotation;
+			if (gameObject.tag == "Black") {
+				spriteAfterDestroy.tag = "Black";
+				spriteAfterDestroy.GetComponent<SpriteRenderer>().color = Color.black;
+			}
+			if (gameObject.tag == "Blue") {
+				spriteAfterDestroy.tag = "Blue";
+				spriteAfterDestroy.GetComponent<SpriteRenderer>().color = Color.blue;
+			}
+			if (gameObject.tag == "Yellow") {
+				spriteAfterDestroy.tag = "Yellow";
+				spriteAfterDestroy.GetComponent<SpriteRenderer>().color = Color.yellow;
+			}
+			if (gameObject.tag == "Green") {
+				spriteAfterDestroy.tag = "Green";
+				spriteAfterDestroy.GetComponent<SpriteRenderer>().color = Color.green;
+			}
+			if (gameObject.tag == "Red") {
+				spriteAfterDestroy.tag = "Red";
+				spriteAfterDestroy.GetComponent<SpriteRenderer>().color = Color.red;
+			}
+			if (gameObject.tag == "White") {
+				spriteAfterDestroy.tag = "White";
+				spriteAfterDestroy.GetComponent<SpriteRenderer>().color = Color.white;
+			}
+
 			Destroy (gameObject);																			//destroy color
 			healthBar.fillAmount -= 0.05f;																//remove 5% from health
 			GameObject.Find("Main Camera").GetComponent<SequencesGenerator>().AddSelfDestroyed();			//increment 1 to self destroyed on SequencesGenerator

@@ -69,7 +69,7 @@ public class RightHand : MonoBehaviour {
 		}
 
 		if (energyBar.fillAmount > 0) {
-			if (InputArcade.Apertou (jogador, EControle.AZUL) && InputArcade.Apertou (jogador, EControle.AMARELO)) {																											
+			if (InputArcade.Apertou (jogador, EControle.AZUL) && InputArcade.Apertado (jogador, EControle.AMARELO)) {																											
 				rightHandPosition = new Vector3 (transform.position.x, transform.position.y, transform.position.z);
 				leftHandTransform = GameObject.Find ("Left Hand").GetComponent<Transform> ();
 				leftHandPosition = new Vector3 (leftHandTransform.position.x, leftHandTransform.position.y, leftHandTransform.position.z);

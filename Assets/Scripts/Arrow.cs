@@ -30,7 +30,7 @@ public class Arrow : MonoBehaviour {
 	}
 
 	void Collided (Collider2D infoCollider){
-		healthBar.fillAmount -= 0.05f;
+		healthBar.fillAmount -= 0.01f;
 		if (infoCollider.tag == "Left Hand") {
 			infoCollider.GetComponent<LeftHand> ().addToHitsP0 ();
 		}

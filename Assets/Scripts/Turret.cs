@@ -20,7 +20,7 @@ public class Turret : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		arrowForce = Random.Range (300, 500);
+		arrowForce = Random.Range (150, 300);
 		period = Random.Range (3, 10);
 		attackDellay = Random.Range (3, 10);
 	}
