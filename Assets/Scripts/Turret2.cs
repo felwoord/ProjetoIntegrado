@@ -20,9 +20,9 @@ public class Turret2 : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		arrow0Force = Random.Range (100, 800);
-		arrow1Force = Random.Range (100, 800);
-		period = Random.Range (2, 5);
+		arrow0Force = Random.Range (150, 200);
+		arrow1Force = Random.Range (150, 200);
+		period = Random.Range (1, 3);
 		attackDellay = Random.Range (3, 10);
 	}
 

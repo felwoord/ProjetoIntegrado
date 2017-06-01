@@ -23,7 +23,14 @@ public class SequencesGenerator : MonoBehaviour {
 
 	private GameObject numberSprite;
 
+	private bool sceneDelay;
+	private float sceneDelayTimer;
+
+
 	void Start () {
+		sceneDelay = true;
+		sceneDelayTimer = 0;
+
 		boolTurret = new bool[2, 2];
 		boolTurret [0, 0] = false;
 		boolTurret [0, 1] = false;
@@ -52,83 +59,89 @@ public class SequencesGenerator : MonoBehaviour {
 
 
 	void Update () {
-		//count how many bools on boolBoard are true(filled)
-		boardCounter = 0;						
-		for (int i = 0; i <= 6; i++) {
-			for (int j = 0; j <= 13; j++) {
-				if (boolBoard [i, j] == true) {
-					boardCounter += 1;
+		if (!sceneDelay) {
+			//count how many bools on boolBoard are true(filled)
+			boardCounter = 0;						
+			for (int i = 0; i <= 6; i++) {
+				for (int j = 0; j <= 13; j++) {
+					if (boolBoard [i, j] == true) {
+						boardCounter += 1;
+					}
 				}
 			}
-		}
 
-		//Do every "difficult" seconds
-		if (period > difficult ) {
+			//Do every "difficult" seconds
+			if (period > difficult) {
 
-			if (boardCounter < 98) {								//if there is at least one false(empty) on boolBoard
+				if (boardCounter < 98) {								//if there is at least one false(empty) on boolBoard
 				
-				for (int i = 0; i <= 1; i++) {						//spawn 2 colors
-					//random position and color generator
-					p = Random.Range (0, 7);						//x
-					q = Random.Range (0, 14);						//y
-					r = Random.Range (0, 6);						//color
-
-					while (boolBoard [p, q] == true) {				//while position on board is full, get new position and color
+					for (int i = 0; i <= 1; i++) {						//spawn 2 colors
 						//random position and color generator
-						p = Random.Range (0, 7);					//x
-						q = Random.Range (0, 14);					//y
-						r = Random.Range (0, 6);					//color
-					}
+						p = Random.Range (0, 7);						//x
+						q = Random.Range (0, 14);						//y
+						r = Random.Range (0, 6);						//color
 
-					GlowBoard (p, q, r);								//Call GlowBoard function
+						while (boolBoard [p, q] == true) {				//while position on board is full, get new position and color
+							//random position and color generator
+							p = Random.Range (0, 7);					//x
+							q = Random.Range (0, 14);					//y
+							r = Random.Range (0, 6);					//color
+						}
 
-				}
-			}
-			period = 0;											//reset timer
-		}
+						GlowBoard (p, q, r);								//Call GlowBoard function
 
-
-		//every 3 seconds colors respawn 0.1 seconds faster
-		if (t > 3) {
-			if (difficultBool) {
-				difficult -= 0.1f;	
-			}
-			//Debug.Log (difficult);
-
-			t = 0;
-			if (difficult <= minDifficult) {
-				difficultBool = false;
-			}
-		}
-
-
-
-
-		if (h > 15) {
-			if (boolTurret2 == false) {
-				turret2 = Instantiate (Resources.Load ("Turret2")) as GameObject;
-				turret2.GetComponent<SpriteRenderer> ().color = Color.red;
-				boolTurret2 = true;
-			}
-			h = 0;
-		}
-		if (g > 10) {
-			for (int i = 0; i <= 1; i++) {
-				for (int j = 0; j <= 1; j++) {
-					if (boolTurret [i, j] == false) {
-						turret = Instantiate (Resources.Load ("Turret")) as GameObject;
-						turret.GetComponent<Turret> ().setPosition (i, j);
-						boolTurret [i, j] = true;
 					}
 				}
+				period = 0;											//reset timer
 			}
-			g = 0;
-		}
 
-		period += UnityEngine.Time.deltaTime;	//increment timer 
-		t += UnityEngine.Time.deltaTime;		//increment counter
-		g += Time.deltaTime;
-		h += Time.deltaTime;
+
+			//every 3 seconds colors respawn 0.1 seconds faster
+			if (t > 3) {
+				if (difficultBool) {
+					difficult -= 0.1f;	
+				}
+				//Debug.Log (difficult);
+
+				t = 0;
+				if (difficult <= minDifficult) {
+					difficultBool = false;
+				}
+			}
+
+
+
+
+			if (h > 15) {
+				if (boolTurret2 == false) {
+					turret2 = Instantiate (Resources.Load ("Turret2")) as GameObject;
+					turret2.GetComponent<SpriteRenderer> ().color = Color.red;
+					boolTurret2 = true;
+				}
+				h = 0;
+			}
+			if (g > 10) {
+				for (int i = 0; i <= 1; i++) {
+					for (int j = 0; j <= 1; j++) {
+						if (boolTurret [i, j] == false) {
+							turret = Instantiate (Resources.Load ("Turret")) as GameObject;
+							turret.GetComponent<Turret> ().setPosition (i, j);
+							boolTurret [i, j] = true;
+						}
+					}
+				}
+				g = 0;
+			}
+
+			period += UnityEngine.Time.deltaTime;	//increment timer 
+			t += UnityEngine.Time.deltaTime;		//increment counter
+			g += Time.deltaTime;
+			h += Time.deltaTime;
+		}
+		sceneDelayTimer += Time.deltaTime;
+		if (sceneDelayTimer >= 0.25f) {
+			sceneDelay = false;
+		}
 	}
 		
 

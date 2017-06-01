@@ -24,10 +24,16 @@ public class LeftHand : MonoBehaviour {
 	public float bulletForce;
 
 	private int hitsP0;
-
 	private int turretsDestroyedP0;
 
+	private bool sceneDelay;
+	private float sceneDelayTimer;
+
+
 	void Start () {
+		sceneDelay = true;
+		sceneDelayTimer = 0;
+
 		scoreP0Text = GameObject.Find ("ScoreP0Text").GetComponent<Text> ();			//get Player 1 score Text Component	
 		multiplierP0Text = GameObject.Find ("MultiplierP0Text").GetComponent<Text> ();	//get Player 1 multiplier Text Component
 		healthBar = GameObject.Find ("HealthBar").GetComponent<Image> ();				//get Health Bar Image
@@ -54,37 +60,44 @@ public class LeftHand : MonoBehaviour {
 	
 
 	void Update () {
+		if (!sceneDelay) {
+			//set movement (physics) horizontal and vertical
+			input.x = InputArcade.Eixo (jogador, EEixo.HORIZONTAL);
+			input.y = InputArcade.Eixo (jogador, EEixo.VERTICAL);
+			GetComponent<Rigidbody2D> ().AddForce (new Vector2 (1, 0) * input.x * velocity * Time.deltaTime);
+			GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0, 1) * input.y * velocity * Time.deltaTime);
 
-		//set movement (physics) horizontal and vertical
-		input.x = InputArcade.Eixo(jogador, EEixo.HORIZONTAL);
-		input.y = InputArcade.Eixo(jogador, EEixo.VERTICAL);
-		GetComponent<Rigidbody2D> ().AddForce (new Vector2 (1, 0) * input.x * velocity * Time.deltaTime);
-		GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0, 1) * input.y * velocity * Time.deltaTime);
+			scoreP0 += Time.deltaTime * multiplierP0;						//scoreP0 increase over time and based on multiplier
+			SetScoreText ();												//set text score on screen
+			SetMultiplierText ();											//set text multiplier on screen
 
-		scoreP0 += Time.deltaTime * multiplierP0;						//scoreP0 increase over time and based on multiplier
-		SetScoreText ();												//set text score on screen
-		SetMultiplierText ();											//set text multiplier on screen
-
-		if (multiplierP0 > maxMultiplierP0) {							//if current mult. > max mult.								
-			maxMultiplierP0 = multiplierP0;								//max mult. = current mult.
-		}
-		if (energyBar.fillAmount < 0.2f) {
-			energyBar.fillAmount = 0;
-		}
-		if (energyBar.fillAmount > 0) {
-			if (InputArcade.Apertou (jogador, EControle.AZUL) /*&& InputArcade.Apertado (jogador, EControle.AMARELO)*/) {																											
-				leftHandPosition = new Vector3 (transform.position.x, transform.position.y, transform.position.z);
-				rightHandTransform = GameObject.Find ("Right Hand").GetComponent<Transform> ();
-				rightHandPosition = new Vector3 (rightHandTransform.position.x, rightHandTransform.position.y, rightHandTransform.position.z);
-				bullet = Instantiate (Resources.Load ("Bullet")) as GameObject;
-				bullet.GetComponent<Bullet> ().setShooter (jogador);
-				bullet.transform.position = new Vector2 (rightHandPosition.x, rightHandPosition.y);
-				bulletDirection = rightHandPosition - leftHandPosition;
-				bulletDirectionMagnitude = bulletDirection.magnitude;
-				bulletDirectionVersor = new Vector3 (bulletDirection.x / bulletDirectionMagnitude, bulletDirection.y / bulletDirectionMagnitude, bulletDirection.z / bulletDirectionMagnitude);
-				bullet.GetComponent<Rigidbody2D> ().AddForce (bulletDirectionVersor * bulletForce / bulletDirectionMagnitude);
-				energyBar.fillAmount -= 0.2f;
+			if (multiplierP0 > maxMultiplierP0) {							//if current mult. > max mult.								
+				maxMultiplierP0 = multiplierP0;								//max mult. = current mult.
 			}
+			if (energyBar.fillAmount < 0.2f) {
+				energyBar.fillAmount = 0;
+			}
+			if (energyBar.fillAmount > 0) {
+				if (InputArcade.Apertou (jogador, EControle.AZUL) /*&& InputArcade.Apertado (jogador, EControle.AMARELO)*/) {																											
+					leftHandPosition = new Vector3 (transform.position.x, transform.position.y, transform.position.z);
+					rightHandTransform = GameObject.Find ("Right Hand").GetComponent<Transform> ();
+					rightHandPosition = new Vector3 (rightHandTransform.position.x, rightHandTransform.position.y, rightHandTransform.position.z);
+					bullet = Instantiate (Resources.Load ("Bullet")) as GameObject;
+					bullet.GetComponent<Bullet> ().setShooter (jogador);
+					bullet.transform.position = new Vector2 (rightHandPosition.x, rightHandPosition.y);
+					bulletDirection = rightHandPosition - leftHandPosition;
+					bulletDirectionMagnitude = bulletDirection.magnitude;
+					bulletDirectionVersor = new Vector3 (bulletDirection.x / bulletDirectionMagnitude, bulletDirection.y / bulletDirectionMagnitude, bulletDirection.z / bulletDirectionMagnitude);
+					bullet.GetComponent<Rigidbody2D> ().AddForce (bulletDirectionVersor * bulletForce /*/ bulletDirectionMagnitude*/);
+					//bullet.GetComponent<Rigidbody2D>().AddForce (bulletDirection * bulletForce);
+					energyBar.fillAmount -= 0.2f;
+				}
+			}
+
+		}
+		sceneDelayTimer += Time.deltaTime;
+		if (sceneDelayTimer >= 0.25f) {
+			sceneDelay = false;
 		}
 	}
 		

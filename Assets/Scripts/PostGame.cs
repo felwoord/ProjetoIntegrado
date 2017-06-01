@@ -35,7 +35,18 @@ public class PostGame : MonoBehaviour {
 	private int hitsP1;
 	private Text hitsP1Text;
 
+	private bool sceneDelay;
+	private float sceneDelayTimer;
+
+	private float counter, flashSpeed;
+	private bool toggle;
+	private Text press1Text;
+
+
 	void Start () {
+		sceneDelay = true;
+		sceneDelayTimer = 0;
+
 		maxMultiplierP0Text = GameObject.Find ("MaxMultP0Text").GetComponent<Text> ();
 		missesP0Text = GameObject.Find ("MissesP0Text").GetComponent<Text> ();
 		turretsP0Text = GameObject.Find ("TurretsP0Text").GetComponent<Text> ();
@@ -83,13 +94,34 @@ public class PostGame : MonoBehaviour {
 		//scoreTotalText.text = scoreTotal.ToString ();			//Set Total score on screen
 		selfDestroyedText.text = selfDestroyed.ToString();		//Set selfDestroyed on screen
 
+		counter = 0;
+		flashSpeed = 10;
+		press1Text = GameObject.Find ("Press1Text").GetComponent<Text> ();
+
 		
 	}
 
 	void Update () {
+		if (!sceneDelay) {
+			if (InputArcade.Apertou (0, EControle.AZUL)) {		//If Player 1 press VERDE button
+				SceneManager.LoadScene ("GetNickScene");		//Load Ranking Scene
+			}
 
-		if (InputArcade.Apertou (0, EControle.AZUL)) {		//If Player 1 press VERDE button
-			SceneManager.LoadScene ("GetNickScene");		//Load Ranking Scene
+			if (counter >= flashSpeed) {									
+				counter = 0;												
+				toggle = !toggle;											
+				if (toggle) {		
+					press1Text.enabled = true;
+				} else {													
+					press1Text.enabled = false;
+				}
+			} else {													
+				counter++;												
+			}
+		}
+		sceneDelayTimer += Time.deltaTime;
+		if (sceneDelayTimer >= 0.25f) {
+			sceneDelay = false;
 		}
 	}
 }
