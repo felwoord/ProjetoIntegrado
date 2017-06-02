@@ -38,11 +38,7 @@ public class Turret2 : MonoBehaviour {
 			arrow0.transform.position = new Vector2 (turretPosition.x, turretPosition.y);
 			arrow0Direction = leftHandPosition - turretPosition;
 			arrow0.transform.LookAt (arrow0Direction);
-			if (arrow0.transform.rotation.y > 1) {
-				arrow0.transform.Rotate (arrow0.transform.rotation.x, -90, transform.rotation.z);
-			} else {
-				arrow0.transform.Rotate (arrow0.transform.rotation.x, -90, transform.rotation.z);
-			}
+			arrow0.transform.Rotate (arrow0.transform.rotation.x, -90, transform.rotation.z);
 			arrow0DirectionMagnitude = arrow0Direction.magnitude;
 			arrow0DirectionVersor = new Vector3 (arrow0Direction.x / arrow0DirectionMagnitude, arrow0Direction.y / arrow0DirectionMagnitude, arrow0Direction.z / arrow0DirectionMagnitude);
 			arrow0.GetComponent<Rigidbody2D> ().AddForce (arrow0DirectionVersor * arrow0Force);
@@ -54,11 +50,7 @@ public class Turret2 : MonoBehaviour {
 			arrow1.transform.position = new Vector2 (turretPosition.x, turretPosition.y);
 			arrow1Direction = rightHandPosition - turretPosition;
 			arrow1.transform.LookAt (arrow1Direction);
-			if (arrow1.transform.rotation.y > 1) {
-				arrow1.transform.Rotate (arrow1.transform.rotation.x, -90, transform.rotation.z);
-			} else {
-				arrow1.transform.Rotate (arrow1.transform.rotation.x, -90, transform.rotation.z);
-			}
+			arrow1.transform.Rotate (arrow1.transform.rotation.x, -90, transform.rotation.z);
 			arrow1DirectionMagnitude = arrow1Direction.magnitude;
 			arrow1DirectionVersor = new Vector3 (arrow1Direction.x / arrow1DirectionMagnitude, arrow1Direction.y / arrow1DirectionMagnitude, arrow1Direction.z / arrow1DirectionMagnitude);
 			arrow1.GetComponent<Rigidbody2D> ().AddForce (arrow1DirectionVersor * arrow1Force);

@@ -42,11 +42,7 @@ public class Turret : MonoBehaviour {
 			arrow.transform.position = new Vector2 (turretPosition.x, turretPosition.y);
 			arrowDirection = handPosition - turretPosition;
 			arrow.transform.LookAt (arrowDirection);
-			if (arrow.transform.rotation.y > 1) {
-				arrow.transform.Rotate (arrow.transform.rotation.x, -90, transform.rotation.z);
-			} else {
-				arrow.transform.Rotate (arrow.transform.rotation.x, -90, transform.rotation.z);
-			}
+			arrow.transform.Rotate (arrow.transform.rotation.x, -90, transform.rotation.z);
 			arrowDirectionMagnitude = arrowDirection.magnitude;
 			arrowDirectionVersor = new Vector3 (arrowDirection.x / arrowDirectionMagnitude, arrowDirection.y / arrowDirectionMagnitude, arrowDirection.z / arrowDirectionMagnitude);
 			arrow.GetComponent<Rigidbody2D> ().AddForce (arrowDirectionVersor * arrowForce);
