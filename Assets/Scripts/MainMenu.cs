@@ -24,9 +24,9 @@ public class MainMenu : MonoBehaviour {
 		sceneDelay = true;
 		sceneDelayTimer = 0;
 		selector = GetComponent<SpriteRenderer> ();
-		position1 = new Vector2 (0, -0.60f);							//position 1 = start game
-		position2 = new Vector2 (0, -1.55f);							//position 2 = rules
-		position3 = new Vector2 (0, -2.50f);							//position 3 = Ranking
+		position1 = new Vector2 (0.05f, 0.29f);							//position 1 = start game
+		position2 = new Vector2 (0.05f, -0.96f);						//position 2 = rules
+		position3 = new Vector2 (0.05f, -2.15f);						//position 3 = Ranking
 
 		
 	}
